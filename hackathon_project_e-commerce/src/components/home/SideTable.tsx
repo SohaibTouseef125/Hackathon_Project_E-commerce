@@ -1,7 +1,8 @@
 // import Image from "next/image";
 "use client";
 import { client } from "@/sanity/lib/client";
-import Image from "next/image";
+import { Image } from "next-sanity/image";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -37,16 +38,7 @@ const SideTable = () => {
           </div>
           </>
         ))}
-        {/* <div className="text-center">
-          <Image src={Image2} alt="Side Table" />
-          <h2 className="text-xl font-bold mt-4">Side Table</h2>
-          <Link href="#" className="">View More</Link>
-        </div>
-        <div className="text-center">
-          <Image src={Image3} alt="Side Table 2" />
-          <h2 className="text-xl font-bold mt-4">Side Table</h2>
-          <Link href="#" className="">View More</Link>
-        </div> */}
+        
       </div>
     </section>
   );

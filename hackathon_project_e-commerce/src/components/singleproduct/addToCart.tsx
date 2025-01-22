@@ -5,11 +5,12 @@ import { client } from "@/sanity/lib/client";
 
 import GalleryProduct from "@/components/singleproduct/GalleryProducts";
 import { useEffect, useState } from "react";
-import Image from "next/image";
+
 import Breadcrumb from "./BreadcrumbProduct";
 import CartSidebar from "./CartSidebar";
 import AdditionalInfo from "./AdditionalInfo";
 import RelatedProducts from "./RelatedProducts";
+import { Image } from "next-sanity/image";
 
 function AddToCart({ params }: { params: { singleproduct: string } }) {
   const [product, setproduct] = useState<Products>();

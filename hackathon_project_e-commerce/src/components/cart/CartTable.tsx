@@ -1,7 +1,8 @@
 "use client";
 
+import { Image } from "next-sanity/image";
 import { useState, useEffect } from "react";
-import Image from "next/image";
+
 
 interface CartItem {
   _id: string;

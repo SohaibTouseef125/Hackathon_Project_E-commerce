@@ -1,6 +1,7 @@
 "use client"
 import { client } from "@/sanity/lib/client";
-import Image from "next/image";
+import { Image } from "next-sanity/image";
+
 import { useEffect, useState } from "react";
 
 const TopPickForYou = () => {

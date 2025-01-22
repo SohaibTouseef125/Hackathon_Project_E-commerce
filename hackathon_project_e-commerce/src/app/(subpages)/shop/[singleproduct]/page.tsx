@@ -15,5 +15,6 @@ export default function ProductDetail({
 }: {
   params: { singleproduct: string };
 }) {
+  
   return <AddToCart params={params} />;
 }
