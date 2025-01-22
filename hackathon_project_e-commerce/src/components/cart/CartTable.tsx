@@ -1,6 +1,7 @@
 "use client";
 
-import { Image } from "next-sanity/image";
+
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 
