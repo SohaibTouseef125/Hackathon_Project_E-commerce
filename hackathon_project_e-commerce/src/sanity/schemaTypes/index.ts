@@ -4,7 +4,9 @@ import { contact } from './contact'
 import { userRegister } from './userRegister'
 import { userLogin } from './userLogin'
 import { cartSchema } from './Cart'
-import { billingDetail } from './billingDetail'
+import { billing } from './billing'
+
+
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [product,cartSchema,billingDetail,contact,userRegister,userLogin],
+  types: [product,cartSchema,contact,userRegister,userLogin,billing],
 }

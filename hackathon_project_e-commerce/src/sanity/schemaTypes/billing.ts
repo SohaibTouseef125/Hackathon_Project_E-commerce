@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const billingDetail = {
+
+export const billing = {
   name: "billingDetails",
   title: "BillingDetails",
   type: "document",
