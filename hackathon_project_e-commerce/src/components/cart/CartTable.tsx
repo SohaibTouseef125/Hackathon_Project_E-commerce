@@ -1,47 +1,17 @@
 "use client";
 
 
+import useMyContext from "@/context/MyContext";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 
 
-interface CartItem {
-  _id: string;
-  name: string;
-  description: string;
-  price: number;
-  imagePath: string;
-  quantity: number;
-  subtotal: number;
-}
+
 
 export default function CartTable() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-  useEffect(() => {
-    // Fetch the cart items from localStorage
-    const storedCart = localStorage.getItem("item");
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart) as CartItem[]);
-    }
-  }, []);
-
-  const handleQuantityChange = (index: number, newQuantity: number) => {
-    const updatedCart = [...cartItems];
-    updatedCart[index].quantity = newQuantity;
-    updatedCart[index].subtotal = updatedCart[index].price * newQuantity;
-    setCartItems(updatedCart);
-    localStorage.setItem("item", JSON.stringify(updatedCart));
-  };
-
-  const handleRemoveItem = (index: number) => {
-    // Filter out the item at the given index
-    const updatedCart = cartItems.filter((_, i) => i !== index);
-    // Update the state
-    setCartItems(updatedCart);
-    // Save the updated cart back to localStorage
-    localStorage.setItem("item", JSON.stringify(updatedCart));
-  };
+ const { cartItems,removeFromCart} = useMyContext()
+ console.log("cartItems",cartItems);
+ 
+  
 
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded p-4">
@@ -57,7 +27,7 @@ export default function CartTable() {
         </thead>
         <tbody>
           {cartItems.length > 0 ? (
-            cartItems.map((item, index) => (
+            cartItems.map((item:Products) => (
               <tr key={item._id} className="border-t">
                 <td className="p-4 flex items-center">
                   <Image
@@ -69,26 +39,24 @@ export default function CartTable() {
                   />
                   <span>{item.name}</span>
                 </td>
-                <td className="p-4">Rs. {item.price.toLocaleString()}</td>
+                <td className="p-4">Rs. {item.price}</td>
                 <td className="p-4">
                   <input
                     type="number"
-                    value={item.quantity}
+                    value={item.stockLevel}
                     min={1}
-                    onChange={(e) =>
-                      handleQuantityChange(index, parseInt(e.target.value))
-                    }
+                    
                     className="border rounded w-16 text-center"
                   />
                 </td>
-                <td className="p-4">Rs. {item.subtotal}</td>
+                <td className="p-4">Rs. </td>
                 <td className="p-4 text-red-500 cursor-pointer">
-                  <span
+                  <button onClick={() => removeFromCart(item._id)}
                     className="material-icons"
-                    onClick={() => handleRemoveItem(index)}
+                   
                   >
                     delete
-                  </span>
+                  </button>
                 </td>
               </tr>
             ))

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Image9 from "./../../../public/assest/Image9.png";
+import Link from "next/link";
 
 const NewArrivals = () => {
     return (
@@ -11,7 +12,9 @@ const NewArrivals = () => {
           <div>
             <h2 className="text-3xl font-bold">New Arrivals</h2>
             <p className="text-gray-600 my-4">Asgaard Sofa</p>
-            <button className="px-6 py-3 bg-black text-white rounded-md">Order Now</button>
+           <Link href={"/shop"}>
+           <button className="px-6 py-3 bg-black text-white rounded-md">Order Now</button>
+           </Link>
           </div>
         </div>
       </section>

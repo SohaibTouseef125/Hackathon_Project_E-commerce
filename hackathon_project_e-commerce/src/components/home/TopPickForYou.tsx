@@ -1,29 +1,17 @@
-"use client"
-import { client } from "@/sanity/lib/client";
+"use client";
+import { useState } from "react";
+import useMyContext from "@/context/MyContext";
 import Image from "next/image";
-
-
-import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const TopPickForYou = () => {
-  const [products, setproducts] = useState<Products[]>([]);
-  const  [view, setview] = useState(false)
-     
-    useEffect(() => {
-      const getData = async () => {
-        const queryURL = `*[_type == "product"] | order(_createdAt asc)[0..3]{
-          _id,
-          name,
-          price,
-          "imagePath": image.asset->url
-        }`;
-        const responseData: Products[] = await client.fetch(queryURL);
-        setproducts(responseData);
-        console.log(responseData);
-      };
-      getData();
-    }, []);
-  
+  const { products } = useMyContext();
+  const [visibleProducts, setVisibleProducts] = useState(4); // Initially show 4 products
+
+  const handleViewMore = () => {
+    setVisibleProducts((prev) => prev + 4); // Load 4 more products each time
+  };
+
   return (
     <section className="py-16">
       <div className="container mx-auto text-center">
@@ -32,10 +20,9 @@ const TopPickForYou = () => {
           Find a bright idea to suit your taste...
         </p>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Add product cards here */}
-          {products.map((item) => (
-            <>
-              <div key={item._id} className=" p-4 text-center">
+          {products.slice(0, visibleProducts).map((item: Products) => (
+            <div key={item._id} className="p-4 text-center">
+              <Link href={`/shop/${item._id}`}>
                 <Image
                   width={900}
                   height={192}
@@ -43,41 +30,21 @@ const TopPickForYou = () => {
                   alt={item.name}
                   className="w-full h-48 object-cover"
                 />
-                <h3 className="mt-2 font-semibold">{item.name}</h3>
-                <p className="text-gray-600">Rs. {item.price}</p>
-              </div>
-            </>
+              </Link>
+              <h3 className="mt-2 font-semibold">{item.name}</h3>
+              <p className="text-gray-600">Rs. {item.price}</p>
+            </div>
           ))}
         </div>
-        <button className="mt-8 px-6 py-3 rounded-md underline" onClick={() => setview(true)}>
 
-          
-          
-            
-          {
-            view && (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              {/* Add product cards here */}
-              {products.map((item) => (
-                <>
-                  <div key={item._id} className=" p-4 text-center">
-                    <Image
-                      width={900}
-                      height={192}
-                      src={item.imagePath}
-                      alt={item.name}
-                      className="w-full h-48 object-cover"
-                    />
-                    <h3 className="mt-2 font-semibold">{item.name}</h3>
-                    <p className="text-gray-600">Rs. {item.price}</p>
-                  </div>
-                </>
-              ))}
-            </div>
-            )
-          }
-          View More
-        </button>
+        {visibleProducts < products.length && (
+          <button
+            onClick={handleViewMore}
+           className="mt-8 px-6 py-3 rounded-md border-2 border-solid border-gray-300 text-lg"
+          >
+            View More
+          </button>
+        )}
       </div>
     </section>
   );

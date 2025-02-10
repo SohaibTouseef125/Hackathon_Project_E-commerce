@@ -6,8 +6,9 @@ type Products = {
   price: number;
   discountPercentage: number;
   category: string;
-  stockLeve:number;
-  isFeaturedProduct:boolean
+  stockLevel:number;
+  isFeaturedProduct:boolean;
+  createdAt: string;
   
 }
   

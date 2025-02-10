@@ -1,6 +1,7 @@
 
 
 const PaginationShop = () => {
+  
  
     return (
       <div className="flex justify-center space-x-4 py-6">

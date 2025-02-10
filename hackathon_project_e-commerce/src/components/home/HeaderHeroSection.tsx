@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Image1 from "./../../../public/assest/Image1.png";
+import Image1 from "../../../public/assest/Image1.png";
 import Link from "next/link";
 const HeaderHeroSection = () => {
   return (

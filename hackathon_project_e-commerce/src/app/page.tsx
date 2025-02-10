@@ -1,3 +1,4 @@
+
 import Footer from "@/components/home/Footer";
 import Header from "@/components/home/Header";
 import HeaderHeroSection from "@/components/home/HeaderHeroSection";
@@ -8,8 +9,10 @@ import SideTable from "@/components/home/SideTable";
 import TopPickForYou from "@/components/home/TopPickForYou";
 
 const Home = () => {
+  
   return (
     <>
+    
       <Header />
       <HeaderHeroSection />
       <SideTable />

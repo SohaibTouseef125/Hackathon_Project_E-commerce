@@ -1,98 +1,115 @@
 "use client";
 
-import { useState } from "react";
 import { client } from "@/sanity/lib/client";
+// import useMyContext from "@/context/MyContext";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
-export default function BillingDetails() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    companyName: "",
-    country: "",
-    streetAddress: "",
-    city: "",
-    province: "",
-    zipCode: "",
-    phone: "",
-    email: "",
-    additionalInfo: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+    export default function BillingDetails() {
+  // const { formData, handleBillingChange, handleBillingSubmit } = useMyContext();
+   const [formData, setFormData] = useState({
+      firstName: "",
+      lastName: "",
+      companyName: "",
+      country: "",
+      streetAddress: "",
+      city: "",
+      province: "",
+      zipCode: "",
+      phone: "",
+      email: "",
+      additionalInfo: "",
     });
-  };
+     const handleBillingChange = (
+        e: React.ChangeEvent<
+          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        >
+      ) => {
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
+        });
+      };
+    
+      const handleBillingSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+          // Create a new document in Sanity
+          const result = await client.create({
+            _type: "billingDetails", // Replace with your Sanity schema's document type
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            companyName: formData.companyName,
+            country: formData.country,
+            streetAddress: formData.streetAddress,
+            city: formData.city,
+            province: formData.province,
+            zipCode: formData.zipCode,
+            phone: formData.phone,
+            email: formData.email,
+            additionalInfo: formData.additionalInfo,
+          });
+    
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Billing details saved successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          console.log("Sanity Response:", result);
+        } catch (error) {
+          console.error("Failed to save billing details:", error);
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Error saving billing details. Please try again.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      // Create a new document in Sanity
-      const result = await client.create({
-        _type: "billingDetails", // Replace with your Sanity schema's document type
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        companyName: formData.companyName,
-        country: formData.country,
-        streetAddress: formData.streetAddress,
-        city: formData.city,
-        province: formData.province,
-        zipCode: formData.zipCode,
-        phone: formData.phone,
-        email: formData.email,
-        additionalInfo: formData.additionalInfo,
-      });
-
-      alert("Billing details saved successfully!");
-      console.log("Sanity Response:", result);
-    } catch (error) {
-      console.error("Failed to save billing details:", error);
-      alert("Something went wrong. Please try again.");
-    }
-  };
-
-  console.log(formData);
-  
   return (
     <div className="w-full max-w-lg bg-white p-6 shadow-md">
       <h2 className="text-lg font-bold mb-4">Billing Details</h2>
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleBillingSubmit}>
         <div className="grid grid-cols-2 gap-4">
           <input
             type="text"
             name="firstName"
+            id="firstName"
             placeholder="First Name"
             value={formData.firstName}
-            onChange={handleChange}
+            onChange={handleBillingChange}
             className="border p-3 rounded w-full"
-            required
           />
           <input
             type="text"
             name="lastName"
+            id="lastName"
             placeholder="Last Name"
             value={formData.lastName}
-            onChange={handleChange}
+            onChange={handleBillingChange}
             className="border p-3 rounded w-full"
-            required
           />
         </div>
         <input
           type="text"
           name="companyName"
+          id="companyName"
           placeholder="Company Name (Optional)"
           value={formData.companyName}
-          onChange={handleChange}
+          onChange={handleBillingChange}
           className="border p-3 rounded w-full"
         />
         <select
+          typeof="text"
           name="country"
+          id="country"
           value={formData.country}
-          onChange={handleChange}
+          onChange={handleBillingChange}
           className="border p-3 rounded w-full"
-          required
         >
           <option value="">Country / Region</option>
           <option value="Sri Lanka">Sri Lanka</option>
@@ -100,64 +117,65 @@ export default function BillingDetails() {
         <input
           type="text"
           name="streetAddress"
+          id="streetAddress"
           placeholder="Street Address"
           value={formData.streetAddress}
-          onChange={handleChange}
+          onChange={handleBillingChange}
           className="border p-3 rounded w-full"
-          required
         />
         <div className="grid grid-cols-2 gap-4">
           <input
             type="text"
             name="city"
+            id="city"
             placeholder="Town / City"
             value={formData.city}
-            onChange={handleChange}
+            onChange={handleBillingChange}
             className="border p-3 rounded w-full"
-            required
           />
           <input
             type="text"
             name="province"
+            id="province"
             placeholder="Province"
             value={formData.province}
-            onChange={handleChange}
+            onChange={handleBillingChange}
             className="border p-3 rounded w-full"
-            required
           />
         </div>
         <input
           type="text"
           name="zipCode"
+          id="zipCode"
           placeholder="ZIP Code"
           value={formData.zipCode}
-          onChange={handleChange}
+          onChange={handleBillingChange}
           className="border p-3 rounded w-full"
-          required
         />
         <input
           type="tel"
           name="phone"
+          id="phone"
           placeholder="Phone"
           value={formData.phone}
-          onChange={handleChange}
+          onChange={handleBillingChange}
           className="border p-3 rounded w-full"
-          required
         />
         <input
           type="email"
           name="email"
+          id="email"
           placeholder="Email Address"
           value={formData.email}
-          onChange={handleChange}
+          onChange={handleBillingChange}
           className="border p-3 rounded w-full"
-          required
         />
         <textarea
           name="additionalInfo"
           placeholder="Additional Information"
+          id="additionalInfo"
           value={formData.additionalInfo}
-          onChange={handleChange}
+          onChange={handleBillingChange}
           className="border p-3 rounded w-full"
           rows={4}
         />
